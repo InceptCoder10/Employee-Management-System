@@ -7,7 +7,7 @@ const activities = [
 
 const RecentActivity = () => {
   return (
-    <div className="bg-white rounded-2xl shadow-sm p-5">
+    <div className="bg-white rounded-2xl shadow-md p-5">
 
       <h2 className="text-xl font-semibold mb-5">
         Recent Activity

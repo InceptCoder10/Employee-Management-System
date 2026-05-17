@@ -5,6 +5,7 @@ import Card from '../components/ui/Card';
 import PageHeaders from '../components/ui/PageHeaders';
 import Badge from '../components/ui/Badge';
 import Loader from '../components/ui/Loader';
+import QuickActions from '../components/dashboard/QuickActions';
 
 function Defaultpage() {
   let label='Name';
@@ -20,6 +21,7 @@ function Defaultpage() {
     <PageHeaders title={title} subtitle={subtitle} description={description}/>
     <Badge text='Active' status='active'/>
     <Loader/>
+    <QuickActions/>
     </>
   )
 }

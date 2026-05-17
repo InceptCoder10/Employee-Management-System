@@ -4,8 +4,8 @@ const Card = ({children, className}) => {
             `bg-white 
             p-5 
             rounded-2xl 
-            shadow-sm
-            hover:shadow-md
+            shadow-md
+            hover:shadow-lg
             ${className}`}
         >
             {children}

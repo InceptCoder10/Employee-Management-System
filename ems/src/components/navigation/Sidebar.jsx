@@ -11,7 +11,7 @@ const Sidebar = ({isOpen,toggleSidebar}) => {
     onClick={toggleSidebar}/>
     }
 
-    <aside className={`fixed inset-y-0 left-0 text-white h-screen w-64 bg-zinc-900 p-6 z-50 shadow-sm transition-transform duration-300 ease-in-out md:relative md:translate-x-0 ${isOpen ? 'translate-x-0' : '-translate-x-full'}
+    <aside className={`fixed inset-y-0 left-0 text-white h-screen w-60 bg-zinc-900 p-6 z-50 shadow-md font-medium transition-transform duration-300 ease-in-out md:relative md:translate-x-0 ${isOpen ? 'translate-x-0' : '-translate-x-full'}
     `}>
 
       <div className="flex justify-between items-center mb-10">

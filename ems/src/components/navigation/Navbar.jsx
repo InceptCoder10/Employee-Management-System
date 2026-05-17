@@ -1,8 +1,18 @@
-import { Bell, Menu, Search } from "lucide-react";
+import React, { useState, useRef, useEffect } from "react";
+import { 
+  Bell, 
+  Search, 
+  Menu, 
+  User, 
+  Settings, 
+  LogOut, 
+  ChevronDown 
+} from "lucide-react";
 
 const Navbar = ({ toggleSidebar}) => {
+  
   return (
-    <header className="h-16 bg-white border-b flex items-center justify-between px-6">
+    <header className=" h-14 md:h-16 bg-white border-b flex items-center justify-between px-6">
       <div className="flex items-center gap-3 flex-1">
         {/* Hamburger Menu */}
         <button
@@ -13,7 +23,7 @@ const Navbar = ({ toggleSidebar}) => {
       </div>
 
       {/* Search bar */}
-      <div className="hidden sm:flex items-center gap-3 bg-gray-100 px-3 py-2 rounded-lg w-full max-w-[320px]">
+      <div className="hidden sm:flex items-center gap-3 bg-gray-100 px-3 py-2 rounded-lg w-72 max-w-[320px]">
         <Search size={18} />
         <input
           type="text"
@@ -36,7 +46,7 @@ const Navbar = ({ toggleSidebar}) => {
           />
 
           <div className="hidden sm:block">
-            <p className="font-medium text-sm md:text-base">Gaurav</p>
+            <p className="font-medium text-sm md:text-base">Manager</p>
             <p className="text-xs md:text-sm text-gray-500">Admin</p>
           </div>
           {/* <span>John Doe</span> */}

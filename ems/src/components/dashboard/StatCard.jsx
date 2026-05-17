@@ -10,7 +10,7 @@ const StatCard = ({
         bg-white
         rounded-2xl
         p-5
-        shadow-sm
+        shadow-md
         flex
         justify-between
         items-start

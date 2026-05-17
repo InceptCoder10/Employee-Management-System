@@ -5,11 +5,11 @@ import StatCard from "../../components/dashboard/StatCard";
 import RecentActivity from "../../components/dashboard/RecentActivity";
 
 import { statsData } from "../../utils/dashboardData";
+import QuickActions from "../../components/dashboard/QuickActions";
 
 const DashboardPage = () => {
   return (
     <div>
-
       <PageHeaders
         title="Dashboard"
         subtitle="Gaurav Yadav"
@@ -25,7 +25,6 @@ const DashboardPage = () => {
           gap-6
         "
       >
-
         {statsData.map((item) => (
           <StatCard
             key={item.title}
@@ -35,41 +34,18 @@ const DashboardPage = () => {
             icon={item.icon}
           />
         ))}
-
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mt-6">
-
-  <div className="lg:col-span-2">
-    <RecentActivity />
-  </div>
-
-  <div>
-    <Card className="lg:flex justify-start  flex-col">
-
-        <div >
-          <h2 className="text-xl font-semibold">
-            Employee Management
-          </h2>
-
-          <p className="text-gray-500 mt-1">
-            Add and manage employees
-          </p>
+        <div className="lg:col-span-2">
+          <RecentActivity />
         </div>
 
-        <div className="mt-4 flex gap-3 ">
-          <Button>
-          Add Employee
-        </Button>
-        <Button>
-          Edit Employee
-        </Button>
+        <div>
+            <QuickActions className={"h-full"}/>
         </div>
-      </Card>
-  </div>
-
-</div>
-</div>
+      </div>
+    </div>
   );
 };
 
