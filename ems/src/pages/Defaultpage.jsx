@@ -6,6 +6,7 @@ import PageHeaders from '../components/ui/PageHeaders';
 import Badge from '../components/ui/Badge';
 import Loader from '../components/ui/Loader';
 import QuickActions from '../components/dashboard/QuickActions';
+import SearchInput from '../components/ui/SearchInput';
 
 function Defaultpage() {
   let label='Name';
@@ -22,6 +23,7 @@ function Defaultpage() {
     <Badge text='Active' status='active'/>
     <Loader/>
     <QuickActions/>
+    <SearchInput/>
     </>
   )
 }

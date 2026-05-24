@@ -1,4 +1,6 @@
-const Badge = ({ text, status = "default" }) => {
+import { useState } from "react";
+
+const Badge = ({ text, status}) => {
 
   const styles = {
     active: "bg-green-100 text-green-700",
@@ -6,6 +8,10 @@ const Badge = ({ text, status = "default" }) => {
     pending: "bg-yellow-100 text-yellow-700",
     default: "bg-gray-100 text-gray-700",
   };
+
+  let newstatus = "default";
+  if (status === "Active") newstatus = "active";
+  if (status === "On Leave") newstatus = "inactive";
 
   return (
     <span
@@ -15,7 +21,9 @@ const Badge = ({ text, status = "default" }) => {
         rounded-full
         text-sm
         font-medium
-        ${styles[status]}
+        whitespace-nowrap
+        text-center
+        ${styles[newstatus]}
       `}
     >
       {text}

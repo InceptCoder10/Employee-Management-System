@@ -12,7 +12,7 @@ export const MainLayout = () => {
   }
 
   return (
-    <div className='flex h-screen w-screen bg-gray-100 overflow-hidden'>
+    <div className='font-sans flex h-screen w-screen bg-gray-100 overflow-hidden'>
         <Sidebar isOpen={sidebarOpen} toggleSidebar={toggleSidebar}/>
         <div className='flex flex-col flex-1 overflow-hidden'>
             <Navbar toggleSidebar={toggleSidebar}/>
