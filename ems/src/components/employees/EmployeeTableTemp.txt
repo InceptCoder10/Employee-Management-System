@@ -1,0 +1,41 @@
+<tbody>
+          {employees.map((emp) => (
+            
+            <tr
+              key={emp.id}
+              className="
+              border-b
+              border-gray-100
+              hover:bg-zinc-50
+              transition
+            "
+            >
+              <td className="p-4">{emp.id}</td>
+
+              <td className="p-4 font-medium">{emp.employee_name}</td>
+
+              <td className="p-4">{emp.employee_age}</td>
+
+              <td className="p-4">{emp.role}</td>
+
+              <td className="p-4">
+
+                <DepartmentBadge department={emp.department} />
+
+              </td>
+
+              <td className="py-4">
+                <Badge status={emp.status} text={emp.status}/>
+              </td>
+
+              <td className="p-4">
+                ₹{Number(emp.employee_salary).toLocaleString('en-IN')}
+              </td>
+
+              {/* <td className="p-4">{emp.department}</td> */}              
+              <td className="p-4 min-w-38">
+                <ExperienceBar years={emp.experience} />
+              </td>
+            </tr>
+          ))}
+        </tbody>

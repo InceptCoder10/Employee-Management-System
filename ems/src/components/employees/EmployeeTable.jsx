@@ -1,14 +1,31 @@
-import React, { useEffect, useState } from "react";
-// import { EmployeeAPI } from "../../api/EmployeeAPI";
+import React, { useEffect, useMemo, useState } from "react";
+
 import { employeeService } from "../../services/employeeService";
+
 import Loader from "../ui/Loader";
-import Badge from "../ui/Badge";
-import { ExperienceBar } from "../ui/ExperienceBar";
-import deptIcons  from "../../utils/deptIcons";
+import SearchInput  from "../ui/SearchInput";
+import FilterBar from "../ui/FilterBar";
+
+import EmployeeRow from "./EmployeeRow";
+
+const TABLE_HEADERS = [
+  "ID",
+  "Employee",
+  "Age",
+  "Role",
+  "Department",
+  "Status",
+  "Salary",
+  "Experience",
+  "Actions",
+];
 
 const EmployeeTable = () => {
   const [employees, setEmployees] = useState([]);
   const [loading, setLoading] = useState(true);
+
+  const [searchQuery, setsearchQuery] = useState("");
+  const [selectedStatus, setselectedStatus] = useState("All");
 
   useEffect(() => {
     const fetchEmployees = async () => {
@@ -20,83 +37,90 @@ const EmployeeTable = () => {
     fetchEmployees();
   }, []);
 
-  if (loading) return <p><Loader/></p>;
+  const filteredEmployees = useMemo(() => {
 
-  if (employees.length === 0) return <p>No employees found</p>;
+    const lowerCaseQuery = searchQuery
+      .toLowerCase()
+      .trim();
+
+  return employees.filter((emp) => {
+
+    const matchesSearch = 
+      !lowerCaseQuery || 
+      emp.employee_name
+      ?.toLowerCase()
+      .includes(lowerCaseQuery) || 
+      emp.department
+      ?.toLowerCase()
+      .includes(lowerCaseQuery);
+    
+    const matchesStatus = 
+      selectedStatus === "All" || 
+      emp.status === selectedStatus;
+    
+    // Both conditions must pass
+    return matchesStatus && matchesSearch;
+  });
+}, [employees, searchQuery, selectedStatus]); // Ensure all 3 are in the dependency array!
+
+  if (loading) {
+    return <Loader/>;
+  } 
+
+  if (employees.length === 0) { 
+    return <p className="text-center text-gray-500 py-10">
+      No employees found</p>;
+  }
 
   return (
+    <div className="space-y-4">
+      <div className="flex gap-4">
+        <SearchInput 
+        value={searchQuery} 
+        onChange={(e) => 
+          setsearchQuery(e.target.value)}
+        placeholder="Search by name or department..."/>
+
+      <FilterBar 
+      selectedStatus={selectedStatus} 
+      onStatusChange={(e) => 
+        setselectedStatus(e.target.value)}
+      />
+    </div>
+
     <div className="bg-white rounded-xl shadow-md p-6 overflow-x-auto">
-      <table className="w-full">
+      {filteredEmployees.length === 0 ? (
+        <div className="text-sm text-gray-600 text-center py-8">
+          No employees found matching "{searchQuery}"
+        </div>
+      ) : (
+        <table className="w-full">
         <thead>
             <tr className="bg-gray-50">
-              {[
-                "ID",
-                "Employee",
-                "Age",
-                "Role",
-                "Department",
-                "Status",
-                "Salary",
-                "Experience",
-              ].map((h) => (
+              {TABLE_HEADERS.map((header) => (
                 <th
-                  key={h}
+                  key={header}
                   className="px-4 py-3 text-left text-[11px] font-medium text-zinc-600 uppercase tracking-widest whitespace-nowrap border-t border-b border-gray-200"
                 >
-                  {h}
+                  {header}
                 </th>
               ))}
             </tr>
           </thead>
 
-        <tbody>
-          {employees.map((emp) => (
-            
-            <tr
-              key={emp.id}
-              className="
-              border-b
-              border-gray-100
-              hover:bg-zinc-50
-              transition
-            "
-            >
-              <td className="p-4">{emp.id}</td>
-
-              <td className="p-4 font-medium">{emp.employee_name}</td>
-
-              <td className="p-4">{emp.employee_age}</td>
-
-              <td className="p-4">{emp.role}</td>
-
-              <td className="p-4">
-
-                    <span className="flex items-center gap-2 border border-zinc-300 px-3 py-2 rounded-full justify-center text-xs bg-zinc-50 min-w-30 w-fit text-gray-800 h-full">
-                    {(() => {
-                        const Icon = deptIcons[emp.department?.toLowerCase()];
-                        return Icon ? <Icon size={14} /> : null;
-                      })()}
-                    {emp.department}
-                      </span>
-            
-              </td>
-
-              <td className="py-4">
-                <Badge status={emp.status} text={emp.status}/>
-              </td>
-
-              <td className="p-4">
-                ₹{Number(emp.employee_salary).toLocaleString('en-IN')}
-              </td>
-
-              {/* <td className="p-4">{emp.department}</td> */}              
-              <td className="p-4 min-w-38">
-                <ExperienceBar years={emp.experience} />
-              </td>
-            </tr>
-          ))}
-        </tbody>
+          <tbody>
+            {filteredEmployees.map((emp) => (
+              <EmployeeRow 
+                key={emp.id} 
+                emp={emp}
+                onView={employeeService.viewEmployee}
+                onEdit={employeeService.editEmployee}
+                onDelete={employeeService.deleteEmployee} />
+            ))}
+          </tbody>
       </table>
+      )}
+      </div>
     </div>
   );
 };

@@ -7,6 +7,7 @@ import Badge from '../components/ui/Badge';
 import Loader from '../components/ui/Loader';
 import QuickActions from '../components/dashboard/QuickActions';
 import SearchInput from '../components/ui/SearchInput';
+import FilterBar from '../components/ui/FilterBar';
 
 function Defaultpage() {
   let label='Name';
@@ -24,6 +25,7 @@ function Defaultpage() {
     <Loader/>
     <QuickActions/>
     <SearchInput/>
+    <FilterBar/>
     </>
   )
 }
