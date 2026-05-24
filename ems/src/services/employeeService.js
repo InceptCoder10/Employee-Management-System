@@ -1,68 +1,38 @@
 import axios from "axios";
 
 const API_BASE_URL =
-  "http://localhost:3000/api";
+  "http://localhost:3000/api/employees";
 
 export const employeeService = {
   // ========================================
   // GET ALL EMPLOYEES
   // ========================================
   getAllEmployees: async () => {
-    try {
-      const response = await axios.get(
-        `${API_BASE_URL}/employees`
-      );
-
-      return response.data.data || [];
-    } catch (error) {
-      console.error(
-        "Error fetching employees:",
-        error
-      );
-
-      return [];
-    }
+    const response = await axios.get(API_BASE_URL);
+    return response.data.data;
   },
 
   // ========================================
   // GET SINGLE EMPLOYEE
   // ========================================
   getEmployeeById: async (id) => {
-    try {
-      const response = await axios.get(
-        `${API_BASE_URL}/employees/${id}`
-      );
+    const response = await axios.get(
+      `${API_BASE_URL}/${id}`
+    );
 
-      return response.data.data;
-    } catch (error) {
-      console.error(
-        `Error fetching employee ${id}:`,
-        error
-      );
-
-      throw error;
-    }
+    return response.data.data;
   },
 
   // ========================================
   // CREATE EMPLOYEE
   // ========================================
   createEmployee: async (employeeData) => {
-    try {
-      const response = await axios.post(
-        `${API_BASE_URL}/employees`,
-        employeeData
-      );
+    const response = await axios.post(
+      API_BASE_URL,
+      employeeData
+    );
 
-      return response.data;
-    } catch (error) {
-      console.error(
-        "Error creating employee:",
-        error
-      );
-
-      throw error;
-    }
+    return response.data.data;
   },
 
   // ========================================
@@ -72,40 +42,22 @@ export const employeeService = {
     id,
     updatedData
   ) => {
-    try {
-      const response = await axios.put(
-        `${API_BASE_URL}/employees/${id}`,
-        updatedData
-      );
+    const response = await axios.put(
+      `${API_BASE_URL}/${id}`,
+      updatedData
+    );
 
-      return response.data;
-    } catch (error) {
-      console.error(
-        `Error updating employee ${id}:`,
-        error
-      );
-
-      throw error;
-    }
+    return response.data.data;
   },
 
   // ========================================
   // DELETE EMPLOYEE
   // ========================================
   deleteEmployee: async (id) => {
-    try {
-      const response = await axios.delete(
-        `${API_BASE_URL}/employees/${id}`
-      );
+    const response = await axios.delete(
+      `${API_BASE_URL}/${id}`
+    );
 
-      return response.data;
-    } catch (error) {
-      console.error(
-        `Error deleting employee ${id}:`,
-        error
-      );
-
-      throw error;
-    }
+    return response.data.data;
   },
 };

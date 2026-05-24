@@ -8,6 +8,17 @@ import FilterBar from "../ui/FilterBar";
 
 import EmployeeRow from "./EmployeeRow";
 
+import ViewEmployeeModal from "../ui/ViewEmployeeModal";
+import EditEmployeeModal from "../ui/EditEmployeeModal";
+
+import {
+  handleView,
+  handleEdit,
+  handleDelete,
+  submitEdit,
+} from "../../handler/emptable/empHandler";
+
+
 const TABLE_HEADERS = [
   "ID",
   "Employee",
@@ -23,17 +34,20 @@ const TABLE_HEADERS = [
 const EmployeeTable = () => {
   const [employees, setEmployees] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [activeEmployee, setActiveEmployee] = useState(null);
+  const [isViewOpen, setIsViewOpen] = useState(false);
+  const [isEditOpen, setIsEditOpen] = useState(false);
 
   const [searchQuery, setsearchQuery] = useState("");
   const [selectedStatus, setselectedStatus] = useState("All");
 
-  useEffect(() => {
-    const fetchEmployees = async () => {
+  const fetchEmployees = async () => {
       const employeeData = await employeeService.getAllEmployees();
       setEmployees(employeeData);
       setLoading(false);
     };
 
+  useEffect(() => {
     fetchEmployees();
   }, []);
 
@@ -62,6 +76,20 @@ const EmployeeTable = () => {
     return matchesStatus && matchesSearch;
   });
 }, [employees, searchQuery, selectedStatus]); // Ensure all 3 are in the dependency array!
+
+  const handleOpenView = (emp) => {
+    setActiveEmployee(emp);
+    setIsViewOpen(true);
+  };
+
+  const handleOpenEdit = (emp) => {
+    setActiveEmployee(emp);
+    setIsEditOpen(true);
+  };
+
+  const handleSaveEdit = (id, formData) => {
+    submitEdit(id, formData, fetchEmployees, () => setIsEditOpen(false));
+  };
 
   if (loading) {
     return <Loader/>;
@@ -111,16 +139,29 @@ const EmployeeTable = () => {
           <tbody>
             {filteredEmployees.map((emp) => (
               <EmployeeRow 
-                key={emp.id} 
+                key={emp._id} 
                 emp={emp}
-                onView={employeeService.viewEmployee}
-                onEdit={employeeService.editEmployee}
-                onDelete={employeeService.deleteEmployee} />
+                onView={() => handleOpenView(emp)}
+                onEdit={() => handleOpenEdit(emp)}
+                onDelete={(id) => handleDelete(id, setEmployees)} />
             ))}
           </tbody>
       </table>
       )}
       </div>
+      {isViewOpen && (
+        <ViewEmployeeModal
+          employee={activeEmployee}
+          onClose={() => setIsViewOpen(false)}
+        />
+      )}
+      {isEditOpen && (
+        <EditEmployeeModal
+          employee={activeEmployee}
+          onClose={() => setIsEditOpen(false)}
+          onSave={handleSaveEdit}
+        />
+      )}
     </div>
   );
 };

@@ -13,7 +13,9 @@ const EmployeeRow = ({ emp, onView, onEdit, onDelete }) => {
 
   return (
     <tr className="border-b border-gray-100 hover:bg-zinc-50 transition">
-      <td className="p-4 text-zinc-600 text-sm">{emp.id}</td>
+      <td className="p-4 text-zinc-600 text-sm font-mono">
+        EMP-{emp._id.slice(-4).toUpperCase()}
+        </td>
       <td className="p-4 font-medium text-zinc-900 text-sm">{emp.employee_name}</td>
       <td className="p-4 text-zinc-600 text-sm">{emp.employee_age}</td>
       <td className="p-4 text-zinc-600 text-sm">{emp.role}</td>
@@ -45,12 +47,10 @@ const EmployeeRow = ({ emp, onView, onEdit, onDelete }) => {
             <Pencil size={14}/>Edit</Button>
           <Button variant="danger"
           className="text-xs"
-          onClick={() => onDelete(emp.id)}>
+          onClick={() => onDelete(emp._id)}>
             <Trash2 size={14}/>Delete</Button>
         </div>
       </td>
-
-      
     </tr>
   );
 };

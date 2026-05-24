@@ -1,5 +1,5 @@
 import 
-{ UserPlus,
+{   UserPlus,
     FileText,
     Building2,
 
@@ -8,7 +8,8 @@ import Card from '../ui/Card'
 import Button from '../ui/Button'
 import React from 'react'
 
-const QuickActions = ({className}) => {
+
+const QuickActions = ({className, onOpenCreate}) => {
     const buttonStyle = 'flex items-center justify-center gap-4 w-full  h-12';
   return (
     <Card className={className}>
@@ -16,7 +17,9 @@ const QuickActions = ({className}) => {
         className='text-xl font-semibold mb-5'
         >Quick Actions</h2>
         <div className='flex gap-4 flex-col items-center'>
-            <Button className={buttonStyle}><UserPlus size={18}/> Add Employee</Button>
+            <Button className={buttonStyle} 
+            onClick={onOpenCreate}
+            ><UserPlus size={18}/> Add Employee</Button>
             <Button 
             className={buttonStyle}
             variant='secondary'><FileText size={18}/> Generate Report</Button>

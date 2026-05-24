@@ -7,7 +7,28 @@ import RecentActivity from "../../components/dashboard/RecentActivity";
 import { statsData } from "../../utils/dashboardData";
 import QuickActions from "../../components/dashboard/QuickActions";
 
+import CreateEmployeeModal from "../../components/ui/CreateEmployeeModal";
+import { employeeService } from "../../services/employeeService";
+
+import { useState } from "react";
+
 const DashboardPage = () => {
+
+  const [isCreateOpen, setIsCreateOpen] = useState(false);
+  const [refreshKey, setRefreshKey] = useState(0);
+
+  const handleCreateEmployee = async (formData) => {
+    try {
+      await employeeService.createEmployee(formData);
+      setIsCreateOpen(false); // Close the modal
+      setRefreshKey(oldKey => oldKey + 1); // Trigger table refresh
+      alert("Employee created successfully!");
+    } catch (error) {
+      console.error("Failed to create employee", error);
+      alert("Error creating employee. Check the console.");
+    }
+  };
+
   return (
     <div>
       <PageHeaders
@@ -42,9 +63,17 @@ const DashboardPage = () => {
         </div>
 
         <div>
-            <QuickActions className={"h-full"}/>
+            <QuickActions 
+            className={"h-full"}
+            onOpenCreate={() => setIsCreateOpen(true)}/>
         </div>
       </div>
+      {isCreateOpen && (
+        <CreateEmployeeModal 
+          onClose={() => setIsCreateOpen(false)} 
+          onSave={handleCreateEmployee} 
+        />
+      )}
     </div>
   );
 };
