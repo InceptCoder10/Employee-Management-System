@@ -6,7 +6,7 @@ const SearchInput = ({value,onChange,placeholder = "Search..."}) => {
     <>
     <div className='relative max-w-md mb-4'>
         <div className='absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-zinc-400'>
-            <Search size={22} />   
+            <Search size={20} />   
         </div>
         <input
             type="text"

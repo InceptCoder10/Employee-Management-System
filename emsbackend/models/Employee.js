@@ -23,8 +23,9 @@ const employeeSchema = new mongoose.Schema({
     enum: ["Active", "On Leave", "Inactive"]
   },
   department: {
-    type: String,
-    default: "Unassigned"
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Department',
+    required: true
   },
   role: {
     type: String,
@@ -50,9 +51,9 @@ employeeSchema.pre('save', function(next) {
   next();
 });
 
-// Update the updatedAt field on findByIdAndUpdate
-employeeSchema.pre('findByIdAndUpdate', function(next) {
-  this.set({ updatedAt: Date.now() });
+// Populate department details when querying employees
+employeeSchema.pre(/^find/, function(next) {
+  this.populate('department');
   next();
 });
 

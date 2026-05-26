@@ -8,14 +8,16 @@ import { statsData } from "../../utils/dashboardData";
 import QuickActions from "../../components/dashboard/QuickActions";
 
 import CreateEmployeeModal from "../../components/ui/CreateEmployeeModal";
+import CreateDepartmentModal from "../../components/ui/CreateDepartmentModal";
 import { employeeService } from "../../services/employeeService";
+import { departmentService } from "../../services/departmentService";
 
 import { useState } from "react";
 
 const DashboardPage = () => {
 
   const [isCreateOpen, setIsCreateOpen] = useState(false);
-  const [refreshKey, setRefreshKey] = useState(0);
+  const [isDeptModalOpen, setIsDeptModalOpen] = useState(false);
 
   const handleCreateEmployee = async (formData) => {
     try {
@@ -28,6 +30,19 @@ const DashboardPage = () => {
       alert("Error creating employee. Check the console.");
     }
   };
+
+  const handleCreateDepartment = async (formData) =>
+  {
+    try {
+      await departmentService.createDepartment(formData);
+      setIsDeptModalOpen(false);
+      alert("Department Created Successfully!");
+    } catch (error) 
+      {
+        console.error("Failed to create department", error);
+        alert("Error creating department. It might already exist.")
+      }
+  }
 
   return (
     <div>
@@ -72,6 +87,12 @@ const DashboardPage = () => {
         <CreateEmployeeModal 
           onClose={() => setIsCreateOpen(false)} 
           onSave={handleCreateEmployee} 
+        />
+      )}
+      {isDeptModalOpen && (
+        <CreateDepartmentModal
+         onClose = {() => setIsDeptModalOpen(false)}
+         onSave={handleCreateDepartment}
         />
       )}
     </div>

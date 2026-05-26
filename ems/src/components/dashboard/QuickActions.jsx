@@ -9,7 +9,7 @@ import Button from '../ui/Button'
 import React from 'react'
 
 
-const QuickActions = ({className, onOpenCreate}) => {
+const QuickActions = ({className, onOpenCreate, onOpenDepartment}) => {
     const buttonStyle = 'flex items-center justify-center gap-4 w-full  h-12';
   return (
     <Card className={className}>
@@ -25,7 +25,8 @@ const QuickActions = ({className, onOpenCreate}) => {
             variant='secondary'><FileText size={18}/> Generate Report</Button>
             <Button
             className={buttonStyle}
-            variant='secondary'><Building2 size={18}/> Add Department</Button>
+            variant='secondary'
+            onClick={onOpenDepartment}><Building2 size={18}/> Add Department</Button>
         </div>
     </Card>
   )

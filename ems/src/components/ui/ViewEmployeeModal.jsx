@@ -6,6 +6,10 @@ import DepartmentBadge from "./DepartmentBadge";
 const ViewEmployeeModal = ({ employee, onClose }) => {
   if (!employee) return null;
 
+  const departmentName = typeof employee.department === 'object' 
+    ? employee.department?.department_name 
+    : employee.department;
+
   return (
     <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4 backdrop-blur-sm">
       <div className="bg-white rounded-2xl shadow-xl w-full max-w-md overflow-hidden">
@@ -38,7 +42,7 @@ const ViewEmployeeModal = ({ employee, onClose }) => {
             </div>
             <div>
               <p className="text-xs text-zinc-500 uppercase tracking-wider mb-1">Department</p>
-              <DepartmentBadge department={employee.department} />
+              <DepartmentBadge department={departmentName} />
             </div>
 
             <div>

@@ -9,7 +9,7 @@ import Button from "../ui/Button";
 import { Eye, Pencil, Trash2 } from "lucide-react";
 
 const EmployeeRow = ({ emp, onView, onEdit, onDelete }) => {
-  const Icon = deptIcons[emp.department?.toLowerCase()];
+  const Icon = deptIcons[emp.department.department_name?.toLowerCase()];
 
   return (
     <tr className="border-b border-gray-100 hover:bg-zinc-50 transition">
@@ -22,7 +22,7 @@ const EmployeeRow = ({ emp, onView, onEdit, onDelete }) => {
       
       {/* Department badge style preserved */}
       <td className="p-4">
-        <DepartmentBadge department={emp.department} />
+        <DepartmentBadge department={emp.department.department_name} />
       </td>
 
       <td className="py-4">
@@ -37,18 +37,19 @@ const EmployeeRow = ({ emp, onView, onEdit, onDelete }) => {
         <ExperienceBar years={emp.experience} />
       </td>
       <td className="p-4 whitespace-nowrap">
-        <div className="flex items-center gap-3">
+        <div className="flex flex-col sm:flex-row items-center gap-2">
           <Button variant="secondary" className="text-xs"
           onClick={() => onView(emp)}>
-            <Eye size={14}/>View</Button>
+            <Eye size={14}/><span className="hidden sm:inline">View</span></Button>
           <Button variant="secondary"
           className="text-xs"
           onClick={() => onEdit(emp)}>
-            <Pencil size={14}/>Edit</Button>
+            <Pencil size={14}/><span className="hidden sm:inline">Edit</span></Button>
           <Button variant="danger"
           className="text-xs"
           onClick={() => onDelete(emp._id)}>
-            <Trash2 size={14}/>Delete</Button>
+            <Trash2 size={14}/><span className="hidden sm:inline">
+              Delete</span></Button>
         </div>
       </td>
     </tr>
