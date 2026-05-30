@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { X } from "lucide-react";
 
-const CreateEmployeeModal = ({ onClose, onSave }) => {
+const CreateEmployeeModal = ({ onClose, onSave, departments = [] }) => {
   const [formData, setFormData] = useState({
     employee_name: "",
     employee_age: "",
@@ -22,10 +22,10 @@ const CreateEmployeeModal = ({ onClose, onSave }) => {
   };
 
   return (
-    <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4 backdrop-blur-sm">
-      <div className="bg-white rounded-2xl shadow-xl w-full max-w-md overflow-hidden flex flex-col max-h-[90vh]">
+    <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4 backdrop-blur-xs">
+      <div className="bg-white rounded-2xl shadow-xl w-full max-w-l md:max-w-200 overflow-hidden flex flex-col">
         
-        <div className="flex justify-between items-center p-5 border-b border-gray-100 shrink-0">
+        <div className="flex justify-between items-center p-5 border-b border-gray-400 shrink-0">
           <h2 className="text-lg font-semibold text-zinc-900">Add New Employee</h2>
           <button onClick={onClose} className="text-zinc-400 hover:text-zinc-700 transition">
             <X size={20} />
@@ -41,18 +41,34 @@ const CreateEmployeeModal = ({ onClose, onSave }) => {
                 placeholder="e.g. Jane Doe" />
             </div>
 
-            <div className="grid grid-cols-2 gap-4">
+            <div className="grid md:grid-cols-3 grid-cols-2 gap-6">
               <div>
                 <label className="block text-xs font-medium text-zinc-700 mb-1">Role</label>
                 <input type="text" name="role" value={formData.role} onChange={handleChange} required
                   className="w-full p-2 border border-gray-200 rounded-lg text-sm outline-none" 
                   placeholder="e.g. Developer" />
               </div>
-              <div>
+              {/* <div>
                 <label className="block text-xs font-medium text-zinc-700 mb-1">Department</label>
                 <input type="text" name="department" value={formData.department} onChange={handleChange} required
                   className="w-full p-2 border border-gray-200 rounded-lg text-sm outline-none" 
                   placeholder="e.g. Engineering" />
+              </div> */}
+              <div>
+                <label className="block text-xs font-medium text-zinc-700 mb-1">Department *</label>
+                <select name="department"
+                value={formData.department}
+                onChange={handleChange}
+                required
+                className="w-full p-2 border border-gray-200 rounded-lg text-sm outline-none"
+                >
+                  <option value="" disabled>Select a department</option>
+                  {departments?.map((dept) => (
+                    <option value={dept._id} key={dept._id}>
+                      {dept.department_name}
+                    </option>
+                  ))}
+                </select>
               </div>
               <div>
                 <label className="block text-xs font-medium text-zinc-700 mb-1">Salary (₹) *</label>

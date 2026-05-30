@@ -1,3 +1,5 @@
+import { useState,useEffect } from "react";
+
 import Card from "../../components/ui/Card";
 import Button from "../../components/ui/Button";
 import PageHeaders from "../../components/ui/PageHeaders";
@@ -12,12 +14,26 @@ import CreateDepartmentModal from "../../components/ui/CreateDepartmentModal";
 import { employeeService } from "../../services/employeeService";
 import { departmentService } from "../../services/departmentService";
 
-import { useState } from "react";
-
 const DashboardPage = () => {
 
   const [isCreateOpen, setIsCreateOpen] = useState(false);
   const [isDeptModalOpen, setIsDeptModalOpen] = useState(false);
+
+  const [refreshKey, setRefreshKey] = useState(0);
+  const [departments, setDepartments] = useState([])
+
+  useEffect(() => {
+  const fetchDepartments = async () => {
+    try {
+      const response = await departmentService.getAllDepartments();
+      setDepartments(response);
+      console.log(response);
+    } catch (error) {
+      console.error("Failed to fetch departments", error);
+    }
+  }
+  fetchDepartments();
+},[refreshKey])
 
   const handleCreateEmployee = async (formData) => {
     try {
@@ -36,6 +52,7 @@ const DashboardPage = () => {
     try {
       await departmentService.createDepartment(formData);
       setIsDeptModalOpen(false);
+      setRefreshKey(oldKey => oldKey + 1);
       alert("Department Created Successfully!");
     } catch (error) 
       {
@@ -80,19 +97,22 @@ const DashboardPage = () => {
         <div>
             <QuickActions 
             className={"h-full"}
-            onOpenCreate={() => setIsCreateOpen(true)}/>
+            onOpenCreate={() => setIsCreateOpen(true)}
+            onOpenDepartment={() => setIsDeptModalOpen(true)}/>
         </div>
       </div>
       {isCreateOpen && (
         <CreateEmployeeModal 
           onClose={() => setIsCreateOpen(false)} 
-          onSave={handleCreateEmployee} 
+          onSave={handleCreateEmployee}
+          departments={departments} 
         />
       )}
       {isDeptModalOpen && (
         <CreateDepartmentModal
          onClose = {() => setIsDeptModalOpen(false)}
          onSave={handleCreateDepartment}
+         departments = {departments}
         />
       )}
     </div>

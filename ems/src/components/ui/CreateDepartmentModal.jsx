@@ -20,9 +20,9 @@ const CreateDepartmentModal = ({ onClose, onSave }) => {
 
   return (
     <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4 backdrop-blur-sm">
-      <div className="bg-white rounded-2xl shadow-xl w-full max-w-md overflow-hidden flex flex-col max-h-[90vh]">
+      <div className="bg-white rounded-2xl shadow-xl  md:max-w-md overflow-hidden flex flex-col max-h-[90vh]">
         
-        <div className="flex justify-between items-center p-5 border-b border-gray-100 shrink-0">
+        <div className="flex justify-between items-center p-5 border-b border-gray-400 shrink-0">
           <h2 className="text-lg font-semibold text-zinc-900">Add New Department</h2>
           <button onClick={onClose} className="text-zinc-400 hover:text-zinc-700 transition">
             <X size={20} />
